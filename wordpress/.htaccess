@@ -1,0 +1,23 @@
+# BEGIN WordPress
+php_value upload_max_filesize 1G
+php_value post_max_size 1G
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REQUEST_METHOD} !^(GET|POST|HEAD)
+RewriteRule .* - [R=405,L]
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{HTTPS} !on
+RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI} [R=301,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+ErrorDocument 404 /index.php?status=404
+ErrorDocument 403 /index.php?status=403
+</IfModule>
+<FilesMatch "readme\.html|.gitignore|license\.txt">
+  Order allow,deny
+  Deny from all
+</FilesMatch>
+# END WordPress
+
